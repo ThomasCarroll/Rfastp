@@ -1,7 +1,7 @@
 Package: Rfastp
 Type: Package
 Title: Wraps the fastp toolset in R
-Version: 0.1.0
+Version: 0.1.1
 Author: Thomas Carroll, Wei Wang
 Maintainer: Thomas Carroll <tc.infomatics@rockfeller.edu>
 Description: More about what it does (maybe more than one line)
@@ -13,5 +13,5 @@ RoxygenNote: 7.1.0
 LinkingTo: 
     Rcpp, Rhtslib, zlibbioc
 Imports: 
-    Rcpp
+    Rcpp, rjson
 SystemRequirements: GNU make

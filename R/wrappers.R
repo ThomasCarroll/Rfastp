@@ -203,6 +203,7 @@
 #'
 #' @return returns a json object of the report.
 #' @author Thomas Carroll, Wei Wang
+#' @import rjson
 #' @export
 #' 
 #' @examples
@@ -246,7 +247,8 @@
 #')
 
 
-rfastp <- function( read1="", read2="", 　outputFastq="", unpaired="",
+rfastp <- function( read1="", read2="", 　outputFastq="",outputHTML=NULL,outputJSON=NULL, 
+                    unpaired="",
     failedOut="", merge=FALSE, mergeOut="", compressLevel=4, phred64=FALSE,
     interleaved=FALSE, fixMGIid=FALSE, adapterTrimming=TRUE, 
     adapterSequenceRead1="", adapterSequenceRead2="", adapterFasta="",
@@ -275,8 +277,15 @@ rfastp <- function( read1="", read2="", 　outputFastq="", unpaired="",
 
     args <- ""
 
+    if(is.null(outputHTML)){
+      outputHTML <- outputFastq
+    }
+    if(is.null(outputHTML)){
+      outputJSON <- outputFastq
+    }
+    
     if (read1 == "" | outputFastq == "") {
-        stop("Please specify the read1 file or the output file name.")
+        stop("Please specify both the read1 file and the output file name.")
     }
     else {
         args <- paste0(args, "-i ", read1, " -o ", outputFastq, "_R1.fastq.gz ")
@@ -513,7 +522,7 @@ rfastp <- function( read1="", read2="", 　outputFastq="", unpaired="",
         args <- paste0(args, " -V")
     }
 
-    args <- paste0(args, ' --report_title "Rfastp Report" -w ', thread, " -h ", outputFastq, ".html -j ", outputFastq, ".json" )
+    args <- paste0(args, ' --report_title "Rfastp Report" -w ', thread, " -h ", outputHTML, ".html -j ", outputJSON, ".json" )
     call <- paste(shQuote(file.path(system.file(package="Rfastp"), "fastp")), args)    
     system(call, intern=TRUE)
     return(fromJSON(file = paste0(outputFastq, ".json")))
